@@ -3,6 +3,9 @@ import sys
 import jieba
 from gensim import corpora,models,similarities
 from collections import defaultdict
+#import psutil
+#import os
+
 #读取文档
 with open(sys.argv[1],'r',encoding='UTF-8') as s1:
     txt1 = s1.read()
@@ -55,6 +58,8 @@ s3.close()
 
 print(0)
 
+#性能分析
+#print(u'当前进程的内存使用：%.4f MB' % (psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024) )
+#print(u'当前进程的使用的CPU时间：%.4f s' % (psutil.Process(os.getpid()).cpu_times().user) )
 
- def ana():
      
