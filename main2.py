@@ -3,6 +3,9 @@ import sys
 import jieba
 from gensim import corpora,models,similarities
 from collections import defaultdict
+#import os
+#import psutil
+
 
 #读取文档
 with open(sys.argv[1],'r',encoding='UTF-8') as s1:
@@ -53,6 +56,10 @@ res = '%.2f'% max(sim)
 s3 = open(sys.argv[3],'w',encoding='UTF-8')
 s3.write(str(res))
 s3.close()
+
+#性能分析
+#print(u'当前进程的内存使用：%.4f MB' % (psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024) )
+#print(u'当前进程的使用的CPU时间：%.4f s' % (psutil.Process(os.getpid()).cpu_times().user) )
 
 print(0)
 
