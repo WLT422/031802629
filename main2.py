@@ -3,8 +3,6 @@ import sys
 import jieba
 from gensim import corpora,models,similarities
 from collections import defaultdict
-#import psutil
-#import os
 
 #读取文档
 with open(sys.argv[1],'r',encoding='UTF-8') as s1:
@@ -43,12 +41,12 @@ new_xs = dictionary.doc2bow(new_text)
 corpus = [dictionary.doc2bow(text)for text in texts]
 #初始化一个tfidf模型用来转换向量
 tfidf = models.TfidfModel(corpus)
-#将整个词库转换为tfidf表示
-corpus_tfidf = tfidf[corpus]
-#利用上一步得到的带有tfidf的语料库建立索引
-index = similarities.MatrixSimilarity(corpus_tfidf)
-#计算相似度并返回最大值
-sim = index[tfidf[new_xs]]
+#通过token2id得到特征数
+featurenum=len(dictionary.token2id.keys())
+#12、稀疏矩阵相似度，从而建立索引
+index=similarities.SparseMatrixSimilarity(tfidf[corpus],num_features=featurenum)
+#得出结果
+sim=index[tfidf[new_xs]]
 #print('%.2f'% max(sim))
 res = '%.2f'% max(sim)
 #写入文件
@@ -58,8 +56,4 @@ s3.close()
 
 print(0)
 
-#性能分析
-#print(u'当前进程的内存使用：%.4f MB' % (psutil.Process(os.getpid()).memory_info().rss / 1024 / 1024) )
-#print(u'当前进程的使用的CPU时间：%.4f s' % (psutil.Process(os.getpid()).cpu_times().user) )
 
-     
